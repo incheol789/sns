@@ -1,4 +1,4 @@
-package com.fast.campus.simplesns.configuration.filter;
+package com.fast.campus.simplesns.config.filter;
 
 import com.fast.campus.simplesns.model.User;
 import com.fast.campus.simplesns.service.UserService;
@@ -16,7 +16,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor

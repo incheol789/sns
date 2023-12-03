@@ -17,21 +17,19 @@ import java.util.Collection;
 import java.util.List;
 
 
-@Data
+@Getter
 @AllArgsConstructor
-@NoArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements UserDetails {
 
     private Integer id;
     private String username;
     private String password;
-    private UserRole role;
+    private UserRole userRole;
     private Timestamp registeredAt;
     private Timestamp updatedAt;
-    private Timestamp removedAt;
+    private Timestamp deletedAt;
 
-
+    // Entity -> dto 변환 메소드
     public static User fromEntity(UserEntity entity) {
         return new User(
                 entity.getId(),
@@ -40,38 +38,33 @@ public class User implements UserDetails {
                 entity.getRole(),
                 entity.getRegisteredAt(),
                 entity.getUpdatedAt(),
-                entity.getRemovedAt()
+                entity.getDeletedAt()
         );
     }
 
     @Override
-    @JsonIgnore
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.toString()));
+        return List.of(new SimpleGrantedAuthority(this.getUserRole().toString()));
     }
 
     @Override
-    @JsonIgnore
     public boolean isAccountNonExpired() {
-        return removedAt == null;
+        return this.deletedAt == null;
     }
 
     @Override
-    @JsonIgnore
     public boolean isAccountNonLocked() {
-        return removedAt == null;
+        return this.deletedAt == null;
     }
 
     @Override
-    @JsonIgnore
     public boolean isCredentialsNonExpired() {
-        return removedAt == null;
+        return this.deletedAt == null;
     }
 
     @Override
-    @JsonIgnore
     public boolean isEnabled() {
-        return removedAt == null;
+        return this.deletedAt == null;
     }
 }
 

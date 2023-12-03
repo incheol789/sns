@@ -1,13 +1,12 @@
-package com.fast.campus.simplesns.configuration;
+package com.fast.campus.simplesns.config;
 
-import com.fast.campus.simplesns.configuration.filter.JwtTokenFilter;
+import com.fast.campus.simplesns.config.filter.JwtTokenFilter;
 import com.fast.campus.simplesns.exception.CustomAuthenticationEntryPoint;
 import com.fast.campus.simplesns.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;

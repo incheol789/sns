@@ -2,7 +2,6 @@ package com.fast.campus.simplesns.model.entity;
 
 import com.fast.campus.simplesns.model.UserRole;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -12,24 +11,25 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 
-@Setter
-@Getter
-@Entity
 @Table(name = "\"user\"")
-@SQLDelete(sql = "UPDATE \"user\" SET removed_at = NOW() WHERE id=?")
-@Where(clause = "removed_at is NULL")
-@NoArgsConstructor
+@Getter
+@Setter
+@SQLDelete(sql = "UPDATE \"user\" SET deleted_at = NOW() where id=?")
+@Where(clause = "deleted_at is NULL")
+@Entity
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id = null;
+    private Integer id;
 
-    @Column(name = "user_name", unique = true)
+    @Column(name = "user_name")
     private String userName;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
@@ -39,24 +39,26 @@ public class UserEntity {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @Column(name = "removed_at")
-    private Timestamp removedAt;
+    @Column(name = "deleted_at")
+    private Timestamp deletedAt;
 
 
+    // 저장 되기전에 현재 시각 저장
     @PrePersist
     void registeredAt() {
         this.registeredAt = Timestamp.from(Instant.now());
     }
 
+    // 업데이트 되기 전에 현재 시각 저장
     @PreUpdate
     void updatedAt() {
         this.updatedAt = Timestamp.from(Instant.now());
     }
 
-    public static UserEntity of(String userName, String encodedPwd) {
-        UserEntity entity = new UserEntity();
-        entity.setUserName(userName);
-        entity.setPassword(encodedPwd);
-        return entity;
+    public static UserEntity of(String userName, String password) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setUserName(userName);
+        userEntity.setPassword(password);
+        return userEntity;
     }
 }
