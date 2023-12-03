@@ -2,13 +2,14 @@ package com.fast.campus.simplesns.controller;
 
 
 import com.fast.campus.simplesns.controller.request.PostCreateRequest;
-import com.fast.campus.simplesns.controller.response.PostResponse;
 import com.fast.campus.simplesns.controller.response.Response;
-import com.fast.campus.simplesns.model.User;
 import com.fast.campus.simplesns.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/api/v1/posts")
 @RequiredArgsConstructor

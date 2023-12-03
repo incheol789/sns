@@ -8,15 +8,13 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Invalid token"),
+    DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "User name is duplicated"),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "User not founded"),
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "Password is invalid"),
+    INVALID_TOKEN(HttpStatus.UNAUTHORIZED, "Token is invalid"),
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "Post not founded"),
-    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "Invalid password"),
-    DUPLICATED_USER_NAME(HttpStatus.CONFLICT, "Duplicated user name"),
-    ALREADY_LIKED_POST(HttpStatus.CONFLICT, "user already like the post"),
-    INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "User has invalid permission"),
-    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Database error occurs"),
-    NOTIFICATION_CONNECT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Connect to notification occurs error"),
+    INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "Permission is invalid"),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error"),
     ;
 
     private final HttpStatus status;
