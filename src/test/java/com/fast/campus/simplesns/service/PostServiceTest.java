@@ -72,7 +72,7 @@ class PostServiceTest {
 		String userName = "userName";
 		Integer postId = 1;
 
-		PostEntity postEntity = PostEntityFixture.get(userName, postId);
+		PostEntity postEntity = PostEntityFixture.get(userName, postId, 1);
 		UserEntity userEntity = postEntity.getUser();
 		// when
 
@@ -91,7 +91,7 @@ class PostServiceTest {
 		String userName = "userName";
 		Integer postId = 1;
 
-		PostEntity postEntity = PostEntityFixture.get(userName, postId);
+		PostEntity postEntity = PostEntityFixture.get(userName, postId, 1);
 		UserEntity userEntity = postEntity.getUser();
 		// when
 
@@ -99,33 +99,32 @@ class PostServiceTest {
 		when(postEntityRepository.findById(postId)).thenReturn(Optional.empty());
 
 		// then
-        SnsApplicationException e = Assertions.assertThrows(SnsApplicationException.class,
-                () -> postService.modify(title, body, userName, postId));
-        Assertions.assertEquals(ErrorCode.POST_NOT_FOUND, e.getErrorCode());
+		SnsApplicationException e = Assertions.assertThrows(SnsApplicationException.class,
+				() -> postService.modify(title, body, userName, postId));
+		Assertions.assertEquals(ErrorCode.POST_NOT_FOUND, e.getErrorCode());
 
-    }
+	}
 
-    @Test
-    void 포스트수정시_권한이_없는_경우() {
-        // given
-        String title = "title";
-        String body = "body";
-        String userName = "userName";
-        Integer postId = 1;
+	@Test
+	void 포스트수정시_권한이_없는_경우() {
+		// given
+		String title = "title";
+		String body = "body";
+		String userName = "userName";
+		Integer postId = 1;
 
-        PostEntity postEntity = PostEntityFixture.get(userName, postId);
-        UserEntity writer = UserEntityFixture.get("userName1", "password");
+		PostEntity postEntity = PostEntityFixture.get(userName, postId, 1);
+		UserEntity writer = UserEntityFixture.get("userName1", "password", 2);
 
-        // when
+		// when
+		when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(writer));
+		when(postEntityRepository.findById(postId)).thenReturn(Optional.of(postEntity));
 
-        when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(writer));
-        when(postEntityRepository.findById(postId)).thenReturn(Optional.of(postEntity));
+		// then
+		SnsApplicationException e = Assertions.assertThrows(SnsApplicationException.class,
+				() -> postService.modify(title, body, userName, postId));
+		Assertions.assertEquals(ErrorCode.INVALID_PERMISSION, e.getErrorCode());
 
-        // then
-        SnsApplicationException e = Assertions.assertThrows(SnsApplicationException.class,
-                () -> postService.modify(title, body, userName, postId));
-        Assertions.assertEquals(ErrorCode.INVALID_PERMISSION, e.getErrorCode());
-
-    }
+	}
 
 }
