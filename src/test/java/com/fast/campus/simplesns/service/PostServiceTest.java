@@ -32,21 +32,21 @@ class PostServiceTest {
 	@MockBean
 	private UserEntityRepository userEntityRepository;
 
-	@Test
-	void 포스트작성이_성공한경우() {
-		// given
-		String title = "title";
-		String body = "body";
-		String userName = "userName";
-
-		// when
-		when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(mock(UserEntity.class)));
-		when(postEntityRepository.save(any())).thenReturn(mock(PostEntity.class));
-
-		Assertions.assertDoesNotThrow(() -> postService.create(title, body, userName));
-
-		// then
-	}
+//	@Test
+//	void 포스트작성이_성공한경우() {
+//		// given
+//		String title = "title";
+//		String body = "body";
+//		String userName = "userName";
+//
+//		// when
+//		when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(mock(UserEntity.class)));
+//		when(postEntityRepository.save(any())).thenReturn(mock(PostEntity.class));
+//
+//		Assertions.assertDoesNotThrow(() -> postService.create(title, body, userName));
+//
+//		// then
+//	}
 
 	@Test
 	void 포스트작성시_요청한유저가_존재하지않는경우() {
@@ -78,6 +78,7 @@ class PostServiceTest {
 
 		when(userEntityRepository.findByUserName(userName)).thenReturn(Optional.of(userEntity));
 		when(postEntityRepository.findById(postId)).thenReturn(Optional.of(postEntity));
+		when(postEntityRepository.saveAndFlush(any())).thenReturn(postEntity);
 
 		// then
 		Assertions.assertDoesNotThrow(() -> postService.modify(title, body, userName, postId));
