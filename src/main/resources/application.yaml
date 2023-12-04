@@ -4,6 +4,12 @@ spring.jpa:
   hibernate.ddl-auto: update
   show-sql: true
 
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        
 spring.datasource:
   hikari.maximum-pool-size: 4
   url: jdbc:postgresql://ec2-35-169-9-79.compute-1.amazonaws.com/d1mt712kio7ngm
@@ -16,3 +22,4 @@ jwt:
   secret-key: fast-campus.simple_sns_2022_secret_key
   # 30 days
   token.expired-time-ms: 2592000000
+

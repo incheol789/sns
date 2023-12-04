@@ -32,12 +32,12 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.kafka:spring-kafka'
-    compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
 
+    implementation 'org.springframework.boot:spring-boot-starter'
+    compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    testCompileOnly 'org.projectlombok:lombok'
-    testAnnotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
@@ -66,9 +66,9 @@ task copyFrontEnd(type: Copy) {
 task cleanFrontEnd(type: Delete) {
     delete "$projectDir/front-end/static", "$projectDir/front-end/node_modules"
 }
-//
-//npmBuild.dependsOn npmInstall
-//copyFrontEnd.dependsOn npmBuild
-//compileJava.dependsOn copyFrontEnd
-//
-//clean.dependsOn cleanFrontEnd
+
+npmBuild.dependsOn npmInstall
+copyFrontEnd.dependsOn npmBuild
+compileJava.dependsOn copyFrontEnd
+
+clean.dependsOn cleanFrontEnd
